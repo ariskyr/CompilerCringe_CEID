@@ -1,4 +1,57 @@
  BNF Grammar for Compiler Cringe
 
-<nonzero> ::= "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
-<digit> ::= "0" | <nonzero>
+<nonzero> ::= "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"   /* digit without 0 */
+<digit> ::= "0" | <nonzero>                                         /* all digits */
+<digits> ::= <digit> | <digit> <digits>                             /* multiple digit numbers */
+<natural> ::= <digit> | <nonzero> <digits>                           /* natural numbers, evading numbers starting with 0, ex. 076 */
+
+<letter> ::=    "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" |
+                "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z" |
+                "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | 
+                "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
+
+/* escape sequences */
+<escape_sequence> ::= <tab> | <newline> | <backslash> | <single_quote> | <double_quote>
+<tab> ::= "\t"
+<newline> ::= "\n"
+<backslash> ::= "\\"
+<single_quote> ::= "\'"
+<double_quote> ::= "\""
+
+
+
+/* gia argotera reserved keywords
+
+    PROGRAM
+    FUNCTION
+    END_FUNCTION
+    VARS
+    CHAR
+    INTEGER
+    RETURN
+    STARTMAIN
+    ENDMAIN
+    WHILE
+    ENDWHILE
+    FOR
+    TO
+    STEP
+    ENDFOR
+    IF
+    THEN
+    ELSEIF
+    ELSE
+    ENDIF
+    AND
+    OR
+    SWITCH
+    CASE
+    DEFAULT
+    ENDSWITCH
+    PRINT
+    BREAK
+    TYPEDEF
+    STRUCT
+    ENDSTRUCT
+
+*/
