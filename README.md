@@ -15,3 +15,4 @@ nothing to execute yet
 
 - 0.1
   - Initial Commit
+  * Added BNF Grammar comment and print definitions as well arithmetic operators

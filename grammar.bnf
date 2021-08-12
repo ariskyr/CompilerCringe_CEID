@@ -3,20 +3,47 @@
 <nonzero> ::= "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"   /* digit without 0 */
 <digit> ::= "0" | <nonzero>                                         /* all digits */
 <digits> ::= <digit> | <digit> <digits>                             /* multiple digit numbers */
-<natural> ::= <digit> | <nonzero> <digits>                           /* natural numbers, evading numbers starting with 0, ex. 076 */
+<natural> ::= <digit> | <nonzero> <digits>                          /* natural numbers, evading numbers starting with 0, ex. 076 */
 
 <letter> ::=    "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" |
                 "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z" |
                 "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | 
                 "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
 
-/* escape sequences */
-<escape_sequence> ::= <tab> | <newline> | <backslash> | <single_quote> | <double_quote>
+<symbol> ::=    "|" | " " | "`" | "~" | "!" | "@" | "#" | "$" | "%" | "^" | "&" | "*" | "(" | ")" | 
+                "-" | "_" | "=" | "+" | "[" | "]" | "{" | "}" | ";" | ":" | "<" | ">" | "," | "." |
+                "/" | "?"
+
+/* case handling for print, comments etc */
+<char> ::= <letter> | <digit> | <symbol>
+<char1> ::= <char> | "'"
+<char2> ::= <char> | "\""
+<text1> ::= "" | <char1> <text1>                                    /* text1 is for double quotes */
+<text2> ::= "" | <char2> <text2>                                    /* text2 is for single quotes */
+<literal> ::= "\"" <text1> "\"" | "'" <text2> "'"
+<commentText> ::= <text1> | <text2>
+
+<print> ::= "PRINT(" <literal> ")"
+
+/* escape sequences, whitespace and comments*/
+<escape_sequence> ::= <tab> | <newline> | <backslash>
 <tab> ::= "\t"
 <newline> ::= "\n"
 <backslash> ::= "\\"
-<single_quote> ::= "\'"
-<double_quote> ::= "\""
+
+<whitespace> ::= "" | " " <whitespace> | <comment>
+<comment> ::= <slComment> | <mlComment>
+<slComment> ::= "//" <commentText> <newline>
+<mlComment> ::= "/*" <commentText> "*/"
+
+/* arithmetic shit */
+<infixOp> ::= <arithmeticInfixOp> | <logicalInfixOp>
+<arithmeticInfixOp ::= "+" | "-" | "^" | "*" | "/"
+<logicalInfixOp ::= ">" | "<" | "==" | "!=" | "AND" | "OR"
+
+<prefixOp> ::= "!" | "+" | "-"
+
+
 
 
 
