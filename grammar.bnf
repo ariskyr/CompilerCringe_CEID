@@ -23,18 +23,17 @@
 <literal> ::= "\"" <text1> "\"" | "'" <text2> "'"
 <commentText> ::= <text1> | <text2>
 
-
-FIXME wtf omg xqc thelei mia allh malakia symfwna me ekfwnhsh
-<print> ::= "PRINT(" <literal> ")"
-
 /* escape sequences, whitespace and comments*/
 <escape_sequence> ::= <tab> | <newline> | <backslash>
 <tab> ::= "\t"
 <newline> ::= "\n"
+<carriageReturn ::= "\r"
 <backslash> ::= "\\"
 
+<newlines> ::= <newline> | <newline> <newlines>
+
 FIXME maybe whitespace doesnt work
-<whitespace> ::= "" | " " <whitespace> | <comment>
+<whitespace> ::= "" | " " <whitespace> | <comment> | <tab> | <newline> | <carriageReturn>
 
 <comment> ::= <slComment> | <mlComment>
 <slComment> ::= "%" <commentText> <newline>
@@ -47,14 +46,15 @@ FIXME maybe whitespace doesnt work
 
 /* used for both variable names and function names */
 <identifier> ::= <firstChar> | <firstChar> <string>                 /* for bison: [a-zA-Z] [a-zA-Z0-9_]* */
+<array> ::= <identifier> "[" <natural> "]"
 
-<variable> ::= <identifier> | <identifier> "[" <natural> "]"
-<variables> ::= <variable> | <variable> "," <whitespace> <variables> 
+<variable> ::= <identifier> | <array>
+<variables> ::= <variable> | <variable> "," <variables> 
 
-<var_decl> ::= "VARS" "CHAR" <variables> | "VARS" "INTEGER" <variables>
+<varDeclaration> ::= "VARS" "CHAR" <variables> | "VARS" "INTEGER" <variables>
+
 
 /*enforcing order of operations (better read from bottom to top) */
-
 <Expression> ::= <andExpression> | <Expression> "OR" <andExpression> /* OR expression and final */
 
 <andExpression> ::= <comparison> | <andExpression> "AND" <comparison> /* AND expression */
@@ -73,12 +73,40 @@ FIXME maybe whitespace doesnt work
 
 <type> ::= <natural> | <commentText>  /* 2 base types */
 
-TODO bnf functions
-TODO arithmetic operations
-TODO while loops
-TODO for to step loops
-TODO if then elseif else endif loops
-TODO switch case default endswitch loops
+
+/* function declarations and definitions */
+<functionDeclaration> ::=   "FUNCTION" <identifier> "(" <parameterDeclarations> ")" 
+                                <statement>
+                            "RETURN" <    "END_FUNCTION"
+
+/* statements, both simple and nested */
+<statement> ::= <simpleStatement> | <nestedStatement> | E  /* E represents a lack of statement */
+<statements> ::= <statement> | <statement> <statements>
+
+<simpleStatement> ::= <assignStatement> | <printStatement> | <functionCall> | "BREAK"  /* 1 liner statements */
+<assignStatement> ::= <variable> "=" <Expression>  /* variable assignment */
+
+TODO maybe add multiple literals and/or variables
+<printStatement> ::= "PRINT(" <literal> "[," <variable> "])"  /* print */
+
+
+<nestedStatement> ::= <ifStatement> | <whileStatement> | <forStatement> | <switchStatement>
+
+<whileStatement> ::= "WHILE(" <Expression> ")" <statements> "ENDWHILE" /* while statement */
+
+<forStatement> ::= "FOR" <identifier> "=" <Expression> "TO" <Expression> "STEP" <Expression> <statements> "ENDFOR" /* for statement */
+
+/* if statement */
+<ifStatement> ::= "IF(" <Expression> ")" "THEN" <statements> <elseIfStatements> "END" "IF"
+<elseIfStatements> ::= "ELSEIF(" <Expression> ")" "THEN" <statements> <elseIfStatements> | "ELSE" <statements> | E
+
+/* switch statement */
+<switchStatement> ::= "SWITCH(" <Expression> ")" <caseStatements> <defaultStatement> "ENDSWITCH"
+<caseStatement> ::= "CASE(" <Expression> "):" <statements> 
+<caseStatements> ::= <caseStatement> | <caseStatement> <caseStatements>
+<defaultStatement> ::= "DEFAULT:" <statements> | E 
+
+TODO functions
 TODO structs
 
 /* gia argotera reserved keywords

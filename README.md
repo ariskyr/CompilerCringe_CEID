@@ -19,3 +19,9 @@ nothing to execute yet
   - Initial Commit
   * Added BNF Grammar comment and print definitions as well arithmetic operators
   * Made BNF Grammar rules so that the bison parse tree will follow order of operations and associativity of c
+  * Added BNF Grammar statements for both simple statements like assignment and nested (if for while switch)
+
+## Known Issues
+
+- Currently lacking function definitions, implementation in expressions as well
+- statements can be completely empty atm which is a mistake (ex. IF(Expression) THEN ENDIF. correct way would be to have at least a simple statement)
