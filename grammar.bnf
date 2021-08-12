@@ -23,6 +23,8 @@
 <literal> ::= "\"" <text1> "\"" | "'" <text2> "'"
 <commentText> ::= <text1> | <text2>
 
+
+FIXME wtf omg xqc thelei mia allh malakia symfwna me ekfwnhsh
 <print> ::= "PRINT(" <literal> ")"
 
 /* escape sequences, whitespace and comments*/
@@ -31,21 +33,53 @@
 <newline> ::= "\n"
 <backslash> ::= "\\"
 
+FIXME maybe whitespace doesnt work
 <whitespace> ::= "" | " " <whitespace> | <comment>
+
 <comment> ::= <slComment> | <mlComment>
-<slComment> ::= "//" <commentText> <newline>
+<slComment> ::= "%" <commentText> <newline>
 <mlComment> ::= "/*" <commentText> "*/"
 
-/* arithmetic shit */
-<infixOp> ::= <arithmeticInfixOp> | <logicalInfixOp>
-<arithmeticInfixOp ::= "+" | "-" | "^" | "*" | "/"
-<logicalInfixOp ::= ">" | "<" | "==" | "!=" | "AND" | "OR"
+/* variable dog */
+<firstChar> ::= <letter> | "_"
+<otherChar> ::= <letter> | <digit> | "_"
+<string> ::= <otherChar> | <otherChar> <otherChar>
 
-<prefixOp> ::= "!" | "+" | "-"
+/* used for both variable names and function names */
+<identifier> ::= <firstChar> | <firstChar> <string>                 /* for bison: [a-zA-Z] [a-zA-Z0-9_]* */
 
+<variable> ::= <identifier> | <identifier> "[" <natural> "]"
+<variables> ::= <variable> | <variable> "," <whitespace> <variables> 
 
+<var_decl> ::= "VARS" "CHAR" <variables> | "VARS" "INTEGER" <variables>
 
+/*enforcing order of operations (better read from bottom to top) */
 
+<Expression> ::= <andExpression> | <Expression> "OR" <andExpression> /* OR expression and final */
+
+<andExpression> ::= <comparison> | <andExpression> "AND" <comparison> /* AND expression */
+
+<comparison> ::= <addition> | <comparison> ">" <addition> | <comparison> "<" <addition> | <comparison> "==" <addition> | <comparison> "!=" <addition> /* logikes ekfraseis */
+
+<addition> ::= <multiplication> | <addition> "+" <multiplication> | <addition> "-" <multiplication> /* teleutaia arithmitiki prosthafaireseis */
+
+<multiplication> ::= <negation> | <multiplication> "*" <negation> | <multiplication> "/" <negation> /* meta polmoi kai diaireseis */
+
+<negation> ::= <power> | "-" <power> /* meta arnhtikoi (px - 9^2    PROSOXH OXI (-9)^2  ) */
+
+<power> ::= <input> | <power> "^" <input> /* powers first */
+
+<input> ::= <type> | <identifier> | "(" <Expression> ")" /* base type or an id */
+
+<type> ::= <natural> | <commentText>  /* 2 base types */
+
+TODO bnf functions
+TODO arithmetic operations
+TODO while loops
+TODO for to step loops
+TODO if then elseif else endif loops
+TODO switch case default endswitch loops
+TODO structs
 
 /* gia argotera reserved keywords
 
