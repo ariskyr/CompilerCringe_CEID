@@ -1,0 +1,7 @@
+FlexBison/.vscode/
+FlexBison/bin/
+FlexBison/usr/local/include/
+FlexBison/usr/local/lib/
+FlexBison/usr/local/share/
+FlexBison/usr/local/wbin/bison.exe
+FlexBison/usr/local/wbin/flex.exe

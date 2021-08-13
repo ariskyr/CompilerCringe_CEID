@@ -69,12 +69,14 @@ FIXME maybe whitespace doesnt work
 
 <power> ::= <input> | <power> "^" <input> /* powers first */
 
+FIXME addition of functions in input (ex. foo(5,6))
 <input> ::= <type> | <identifier> | "(" <Expression> ")" /* base type or an id */
 
 <type> ::= <natural> | <commentText>  /* 2 base types */
 
 
 /* function declarations and definitions */
+TODO functions
 <functionDeclaration> ::=   "FUNCTION" <identifier> "(" <parameterDeclarations> ")" 
                                 <statement>
                             "RETURN" <    "END_FUNCTION"
@@ -106,41 +108,5 @@ TODO maybe add multiple literals and/or variables
 <caseStatements> ::= <caseStatement> | <caseStatement> <caseStatements>
 <defaultStatement> ::= "DEFAULT:" <statements> | E 
 
-TODO functions
+
 TODO structs
-
-/* gia argotera reserved keywords
-
-    PROGRAM
-    FUNCTION
-    END_FUNCTION
-    VARS
-    CHAR
-    INTEGER
-    RETURN
-    STARTMAIN
-    ENDMAIN
-    WHILE
-    ENDWHILE
-    FOR
-    TO
-    STEP
-    ENDFOR
-    IF
-    THEN
-    ELSEIF
-    ELSE
-    ENDIF
-    AND
-    OR
-    SWITCH
-    CASE
-    DEFAULT
-    ENDSWITCH
-    PRINT
-    BREAK
-    TYPEDEF
-    STRUCT
-    ENDSTRUCT
-
-*/

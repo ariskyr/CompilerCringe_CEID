@@ -15,7 +15,10 @@ nothing to execute yet
 
 ## Versions History
 
-- 0.1
+- 0.2
+  - Flex file initialisation (reserved keywords definition + a simple function to print the tokens)
+
+* 0.1
   - Initial Commit
   * Added BNF Grammar comment and print definitions as well arithmetic operators
   * Made BNF Grammar rules so that the bison parse tree will follow order of operations and associativity of c
