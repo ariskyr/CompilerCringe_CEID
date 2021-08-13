@@ -18,7 +18,8 @@ nothing to execute yet
 - 0.2
   - Flex file initialisation (reserved keywords definition + a simple function to print the tokens)
   * Added BNF Grammar functions and program structure. Practically the end of the grammar
-  * Flex addition of operators and conditions, indentification of natural numbers and identifiers using regex, also ignoring whitespace
+  * Flex addition of operators and conditions, identification of natural numbers and identifiers using regex, also ignoring whitespace
+  * Flex identification of strings, ignoring both single and multi line comments. Error handling with a simple function
 
 * 0.1
   - Initial Commit

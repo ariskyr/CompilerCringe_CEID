@@ -48,6 +48,8 @@
 #define T_ID 41
 #define T_NATURAL 42
 
+#define T_STRING 43
+
 /* gia argotera reserved keywords
 
     TYPEDEF
