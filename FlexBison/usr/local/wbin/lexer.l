@@ -12,8 +12,17 @@
 %option noyywrap
 %option yylineno
 
-%%
+NONZERO             [1-9]
+DIGIT               (0)|{NONZERO}
+LETTER              [a-zA-Z]
+ALPHANUM            {LETTER}|{DIGIT}
+ALPHANUM_           [a-zA-Z0-9_]
 
+NATURAL             {NONZERO}[0-9]*|{DIGIT}
+
+IDENTIFIER          _*{LETTER}{ALPHANUM_}*
+
+%%
 
 "INTEGER"           { token_print(T_INTEGER); return T_INTEGER; }
 "CHAR"              { token_print(T_CHAR); return T_CHAR; }
@@ -42,11 +51,35 @@
 "PRINT"             { token_print(T_PRINT); return T_PRINT; }
 "BREAK"             { token_print(T_BREAK); return T_BREAK; }
 
-"AND"               { token_print(T_AND); return T_AND; }
-"OR"                { token_print(T_OR); return T_OR; }
+{IDENTIFIER}        { token_print(T_ID); return T_ID; }
+
+{NATURAL}           { token_print(T_NATURAL); return T_NATURAL; }
+
+"AND"               { token_print(T_ANDOP); return T_ANDOP; }
+"OR"                { token_print(T_OROP); return T_OROP; }
+
+"==" | "!="         { token_print(T_EQOP); return T_EQOP; }
+">"  | "<"          { token_print(T_RELOP); return T_RELOP; }
+"+"  | "-"          { token_print(T_ADDOP); return T_ADDOP; }
+"*"  | "/"          { token_print(T_MULOP); return T_MULOP; }
+"^"                 { token_print(T_EXPOP); return T_EXPOP; }
+
+"("                 { token_print(T_LPAREN); return T_LPAREN; }
+")"                 { token_print(T_RPAREN); return T_RPAREN; }
+";"                 { token_print(T_SEMIC); return T_SEMIC; }
+","                 { token_print(T_COMMA); return T_COMMA; }
+"="                 { token_print(T_ASSIGN); return T_ASSIGN; }
+"["                 { token_print(T_LBRACK); return T_LBRACK; }
+"]"                 { token_print(T_RBRACK); return T_RBRACK; }
+
+[ \t]               {   }
+[\n]                {   }
+[\r\n]              {   }
+
+<<EOF>>             { token_print(T_EOF); return T_EOF; }
 
 .                   { printf("Unrecognized character: %s at line: %d.\n", yytext, yylineno); }
-<<EOF>>             { return 0; }
+
 
 %%
 

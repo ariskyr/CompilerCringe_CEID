@@ -28,8 +28,25 @@
 #define T_PRINT 25
 #define T_BREAK 26
 
-#define T_AND 27
-#define T_OR 28
+#define T_ANDOP 27
+#define T_OROP 28
+
+#define T_EQOP 29
+#define T_RELOP 30
+#define T_ADDOP 31
+#define T_MULOP 32
+#define T_EXPOP 33
+
+#define T_LPAREN 34
+#define T_RPAREN 35
+#define T_SEMIC 36
+#define T_COMMA 37
+#define T_ASSIGN 38
+#define T_LBRACK 39
+#define T_RBRACK 40
+
+#define T_ID 41
+#define T_NATURAL 42
 
 /* gia argotera reserved keywords
 
