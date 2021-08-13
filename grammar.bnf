@@ -27,7 +27,7 @@
 <escape_sequence> ::= <tab> | <newline> | <backslash>
 <tab> ::= "\t"
 <newline> ::= "\n"
-<carriageReturn ::= "\r"
+<carriageReturn> ::= "\r"
 <backslash> ::= "\\"
 
 <newlines> ::= <newline> | <newline> <newlines>
@@ -51,7 +51,8 @@ FIXME maybe whitespace doesnt work
 <variable> ::= <identifier> | <array>
 <variables> ::= <variable> | <variable> "," <variables> 
 
-<varDeclaration> ::= "VARS" "CHAR" <variables> | "VARS" "INTEGER" <variables>
+<varType> ::= "CHAR" | "INTEGER"
+<varDeclaration> ::= "VARS" <varType> <variables> 
 
 
 /*enforcing order of operations (better read from bottom to top) */
@@ -69,17 +70,29 @@ FIXME maybe whitespace doesnt work
 
 <power> ::= <input> | <power> "^" <input> /* powers first */
 
-FIXME addition of functions in input (ex. foo(5,6))
-<input> ::= <type> | <identifier> | "(" <Expression> ")" /* base type or an id */
+<input> ::= <type> | <identifier> | "(" <Expression> ")" | functionCall /* base type or an id, or a full expr or a function */
 
 <type> ::= <natural> | <commentText>  /* 2 base types */
 
 
 /* function declarations and definitions */
-TODO functions
-<functionDeclaration> ::=   "FUNCTION" <identifier> "(" <parameterDeclarations> ")" 
-                                <statement>
-                            "RETURN" <    "END_FUNCTION"
+
+<functionDeclarations> ::= <functionDeclaration> | <functionDeclaration> <functionDeclarations>
+
+<functionDeclaration> ::=   "FUNCTION" <identifier> "(" <parameterDeclarations> ")" <newlines> /* return type is an id */
+                                <statements>
+                            "RETURN" <identifier> "END_FUNCTION" 
+                            | "FUNCTION" <identifier> "(" <parameterDeclarations> ")" <newlines> /* return type is a number */
+                                <statements>
+                            "RETURN" <natural> "END_FUNCTION" 
+                            | "FUNCTION" <identifier> "(" <parameterDeclarations> ")" <newlines> /* return type is a string */
+                                <statements>
+                            "RETURN" <literal> "END_FUNCTION" 
+
+<parameterDeclarations> ::= <parameter> , <parameterDeclarations> | <parameter> | E
+<parameter> ::= <varType> <variable>
+
+<functionCall> ::= <identifier> "(" <variables> ")" | <identifier> "()" /* function call */
 
 /* statements, both simple and nested */
 <statement> ::= <simpleStatement> | <nestedStatement> | E  /* E represents a lack of statement */
@@ -89,7 +102,7 @@ TODO functions
 <assignStatement> ::= <variable> "=" <Expression>  /* variable assignment */
 
 TODO maybe add multiple literals and/or variables
-<printStatement> ::= "PRINT(" <literal> "[," <variable> "])"  /* print */
+<printStatement> ::= "PRINT(" <literal> "[," <variable> "])" | "PRINT(" <literal> ")"  /* print */
 
 
 <nestedStatement> ::= <ifStatement> | <whileStatement> | <forStatement> | <switchStatement>
@@ -108,5 +121,11 @@ TODO maybe add multiple literals and/or variables
 <caseStatements> ::= <caseStatement> | <caseStatement> <caseStatements>
 <defaultStatement> ::= "DEFAULT:" <statements> | E 
 
+
+/* program structure */
+<program> ::=   "PROGRAM" <identifier> <newlines> <functionDeclarations> <mainBlock> |
+                "PROGRAM" <identifier> <newlines> <mainBlock>
+
+<mainBlock> ::= "STARTMAIN" <statements> "ENDMAIN"
 
 TODO structs
