@@ -6,7 +6,25 @@ Keywords used are actually more like pascal.
 
 ## Executing Program
 
-nothing to execute yet
+Executing the program requires the Flex and Bison tools for lexical analysis and a parse tree generator.
+You will also need a gcc compiler (any will work like cygwin or mingw).
+
+for compiling the Flex file lexer.l alone:
+
+```
+./flex.exe lexer.l
+gcc lex.yy.c
+./a.exe input.file
+```
+
+for compiling both flex and bison files
+
+```
+./flex.exe lexer.l
+./bison.exe -v -d -y bison.y
+gcc y.tab.c lex.yy.c -lm
+./a.exe input.test
+```
 
 ## Authors
 
@@ -15,13 +33,16 @@ nothing to execute yet
 
 ## Versions History
 
-- 0.2
+- 0.3
+  - Bison file with full grammar and tokens. need to reduce ambiguous statements and fix newlines and var assignments.
+
+* 0.2
   - Flex file initialisation (reserved keywords definition + a simple function to print the tokens)
   * Added BNF Grammar functions and program structure. Practically the end of the grammar
   * Flex addition of operators and conditions, identification of natural numbers and identifiers using regex, also ignoring whitespace
   * Flex identification of strings, ignoring both single and multi line comments. Error handling with a simple function
 
-* 0.1
+- 0.1
   - Initial Commit
   * Added BNF Grammar comment and print definitions as well arithmetic operators
   * Made BNF Grammar rules so that the bison parse tree will follow order of operations and associativity of c

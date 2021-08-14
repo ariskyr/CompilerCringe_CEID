@@ -1,0 +1,89 @@
+/* stack type definitions for memory alloc */
+%union {
+    int intval;
+    char* strval;
+}
+
+/*tokens with type and description */
+
+
+%token <strval> T_INTEGER        "integer"
+%token <strval> T_CHAR           "character"
+%token <strval> T_PROGRAM        "program start"
+%token <strval> T_FUNCTION       "function start"
+%token <strval> T_END_FUNCTION   "function end"
+%token <strval> T_VARS           "variable declaration"
+%token <strval> T_RETURN         "return"
+%token <strval> T_STARTMAIN      "main start"
+%token <strval> T_ENDMAIN        "main end"
+%token <strval> T_WHILE          "while start"
+%token <strval> T_ENDWHILE       "while end"
+%token <strval> T_FOR            "for start"
+%token <strval> T_TO             "to (for range)"
+%token <strval> T_STEP           "step (for how big step)"
+%token <strval> T_ENDFOR         "for end"
+%token <strval> T_IF             "if start"
+%token <strval> T_THEN           "then (condition)"
+%token <strval> T_ELSEIF         "elseif (condition)"
+%token <strval> T_ELSE           "else"
+%token <strval> T_ENDIF          "if end"
+%token <strval> T_SWITCH         "switch start"
+%token <strval> T_CASE           "case (condition)"
+%token <strval> T_DEFAULT        "default option"
+%token <strval> T_ENDSWITCH      "switch end"
+%token <strval> T_PRINT          "print"
+%token <strval> T_BREAK          "break"
+
+%token <strval> T_ANDOP          "and operator"
+%token <strval> T_OROP           "or operator"
+
+%token <strval> T_EQOP           "equal or not equal operator"
+%token <strval> T_RELOP          "relation < > operator"
+%token <strval> T_ADDOP          "addition + - operator"
+%token <strval> T_MULOP          "multiplication * / operator"
+%token <strval> T_EXPOP          "exponent ^ operator"
+
+%token <strval> T_LPAREN         "Left parenthesis ("
+%token <strval> T_RPAREN         "Right parenthesis )"
+%token <strval> T_SEMIC          "semicolon ;"
+%token <strval> T_COMMA          "comma ,"
+%token <strval> T_ASSIGN         "assign operator ="
+%token <strval> T_LBRACK         "left bracket ["
+%token <strval> T_RBRACK         "right bracket ]"
+
+%token <strval> T_NEWLINES       "newlines"
+
+%token <strval> T_ID             "identifier"
+%token <intval> T_NATURAL        "natural number"
+
+%token <strval> T_STRING         "string"
+
+%%
+
+program: T_PROGRAM T_ID T_NEWLINES functionDeclarations mainBlock
+       | T_PROGRAM T_ID T_NEWLINES mainBlock
+
+mainBlock: T_STARTMAIN statements T_ENDMAIN
+
+functionDeclarations: functionDeclaration
+                    | functionDeclaration functionDeclarations
+
+functionDeclaration: T_FUNCTION T_ID T_LPAREN parameterDeclarations T_RPAREN T_NEWLINES 
+                        statements
+                        T_RETURN T_ID T_END_FUNCTION
+                   | T_FUNCTION T_ID T_LPAREN parameterDeclarations T_RPAREN T_NEWLINES 
+                        statements
+                        T_RETURN T_NATURAL T_END_FUNCTION
+                   | T_FUNCTION T_ID T_LPAREN parameterDeclarations T_RPAREN T_NEWLINES 
+                        statements
+                        T_RETURN T_LITERAL T_END_FUNCTION
+
+parameterDeclarations: parameter T_COMMA parameterDeclarations
+                     | parameter
+                     | %empty
+
+parameter: varType variable
+
+functionCall: 
+
+%%

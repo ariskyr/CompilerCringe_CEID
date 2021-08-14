@@ -1,14 +1,14 @@
 PROGRAM test
 
-    FUNCTION foo(INTEGER a, CHAR _b1)
-        VARS CHAR kati = "kati";
+    FUNCTION             foo(INTEGER a, CHAR _b1)
+        VARS CHAR kati = a;
         VARS INTEGER int = 5;
         IF(a>int) THEN
-            int = a;
+            int = a ;
         ELSE
             kati = "mikroteros";
         ENDIF
-        RETURN int;
+        RETURN int
     END_FUNCTION
 
     STARTMAIN

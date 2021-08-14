@@ -4,7 +4,8 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
-    #include "tokens.h"
+    #include "y.tab.h"
+    //#include "tokens.h" only here if I need to test flex file 
 
     char str_buf[256];
     int error_count = 0;
@@ -137,8 +138,8 @@ IDENTIFIER          _*{LETTER}{ALPHANUM_}*
 "["                         { token_print(T_LBRACK); return T_LBRACK; }
 "]"                         { token_print(T_RBRACK); return T_RBRACK; }
 
+[\n]                        {  }
 [ \t]                       {   }
-[\n]                        {   }
 [\r\n]                      {   }
 
 <<EOF>>                     { token_print(T_EOF); return T_EOF; }
@@ -147,24 +148,6 @@ IDENTIFIER          _*{LETTER}{ALPHANUM_}*
 
 
 %%
-
-int main( int argc, char *argv[]){
-    int token;
-    if(argc > 1){
-        yyin = fopen(argv[1], "r");
-        if(yyin == NULL){
-            perror ("Error opening file");
-            return -1;
-        }
-    }
-
-    do{
-        token = yylex();
-    }while(token != 0);
-
-    fclose(yyin);
-    yyterminate();
-}
 
 void token_print(int token_id){
     printf("Found token %s (%d) at line %d.\n", yytext, token_id, yylineno);

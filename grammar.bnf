@@ -98,7 +98,7 @@ FIXME maybe whitespace doesnt work
 <statement> ::= <simpleStatement> | <nestedStatement> | E  /* E represents a lack of statement */
 <statements> ::= <statement> | <statement> <statements>
 
-<simpleStatement> ::= <assignStatement> | <printStatement> | <functionCall> | "BREAK"  /* 1 liner statements */
+<simpleStatement> ::= <assignStatement> | <printStatement> | <functionCall> | <varDeclaration> | "BREAK"  /* 1 liner statements */
 <assignStatement> ::= <variable> "=" <Expression>  /* variable assignment */
 
 TODO maybe add multiple literals and/or variables
