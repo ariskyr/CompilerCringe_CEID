@@ -65,11 +65,11 @@ IDENTIFIER          _*{LETTER}{ALPHANUM_}*
 "PRINT"                     { token_print(T_PRINT); return T_PRINT; }
 "BREAK"                     { token_print(T_BREAK); return T_BREAK; }
 
-{IDENTIFIER}                { token_print(T_ID); return T_ID; }
-{NATURAL}                   { token_print(T_NATURAL); return T_NATURAL; }
+{IDENTIFIER}                { token_print(T_ID); yylval.strval = strdup(yytext); return T_ID; } /* yylval deiktis sto union me ta types sto bison */
+{NATURAL}                   { token_print(T_NATURAL); yylval.intval = strdup(yytext); return T_NATURAL; }
 
 \"                          { strcpy(str_buf, ""); BEGIN(DQUOTE_STRING); }
-<DQUOTE_STRING>\"                  { BEGIN(INITIAL); printf("Found string: '%s'\n", str_buf); return T_STRING; }
+<DQUOTE_STRING>\"                  { BEGIN(INITIAL); printf("Found string: '%s'\n", str_buf); yylval.strval = strdup(str_buf); return T_STRING; }
 <DQUOTE_STRING>(\\\n|\\\r\n)       {   }
 <DQUOTE_STRING>(\\.|[^"\\])        { 
                                 if(yyleng == 2) {
@@ -92,7 +92,7 @@ IDENTIFIER          _*{LETTER}{ALPHANUM_}*
 
 
 \'                          { strcpy(str_buf, ""); BEGIN(SQUOTE_STRING); }
-<SQUOTE_STRING>\'                  { BEGIN(INITIAL); printf("Found string: '%s'\n", str_buf); return T_STRING; }
+<SQUOTE_STRING>\'                  { BEGIN(INITIAL); printf("Found string: '%s'\n", str_buf); yylval.strval = strdup(str_buf); return T_STRING; }
 <SQUOTE_STRING>(\\\n|\\\r\n)       {   }
 <SQUOTE_STRING>(\\.|[^"\\])        { 
                                 if(yyleng == 2) {
@@ -138,7 +138,7 @@ IDENTIFIER          _*{LETTER}{ALPHANUM_}*
 "["                         { token_print(T_LBRACK); return T_LBRACK; }
 "]"                         { token_print(T_RBRACK); return T_RBRACK; }
 
-[\n]                        {  }
+[\n]                        {   }
 [ \t]                       {   }
 [\r\n]                      {   }
 

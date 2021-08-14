@@ -934,12 +934,12 @@ YY_RULE_SETUP
 case 27:
 YY_RULE_SETUP
 #line 68 "lexer.l"
-{ token_print(T_ID); return T_ID; }
+{ token_print(T_ID); yylval.strval = strdup(yytext); return T_ID; } /* yylval deiktis sto union me ta types sto bison */
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 69 "lexer.l"
-{ token_print(T_NATURAL); return T_NATURAL; }
+{ token_print(T_NATURAL); yylval.intval = strdup(yytext); return T_NATURAL; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
@@ -949,7 +949,7 @@ YY_RULE_SETUP
 case 30:
 YY_RULE_SETUP
 #line 72 "lexer.l"
-{ BEGIN(INITIAL); printf("Found string: '%s'\n", str_buf); return T_STRING; }
+{ BEGIN(INITIAL); printf("Found string: '%s'\n", str_buf); yylval.strval = strdup(str_buf); return T_STRING; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
@@ -997,7 +997,7 @@ YY_RULE_SETUP
 case 36:
 YY_RULE_SETUP
 #line 95 "lexer.l"
-{ BEGIN(INITIAL); printf("Found string: '%s'\n", str_buf); return T_STRING; }
+{ BEGIN(INITIAL); printf("Found string: '%s'\n", str_buf); yylval.strval = strdup(str_buf); return T_STRING; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
@@ -1128,7 +1128,7 @@ YY_RULE_SETUP
 case 61:
 YY_RULE_SETUP
 #line 141 "lexer.l"
-{  }
+{   }
 	YY_BREAK
 case 62:
 YY_RULE_SETUP

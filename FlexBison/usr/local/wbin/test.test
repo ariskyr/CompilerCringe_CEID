@@ -1,8 +1,6 @@
 PROGRAM test
 
     FUNCTION             foo(INTEGER a, CHAR _b1)
-        VARS CHAR kati = a;
-        VARS INTEGER int = 5;
         IF(a>int) THEN
             int = a ;
         ELSE
@@ -14,7 +12,9 @@ PROGRAM test
     STARTMAIN
 
         VARS CHAR x[5], y;
-        VARS INT z;
-        z = foo(10, "bb");
+        VARS INTEGER z;
+        z = foo();
+        z = foo(10, bb);
+        PRINT("auto einai to apotelesma:" [,z])
     ENDMAIN
     
