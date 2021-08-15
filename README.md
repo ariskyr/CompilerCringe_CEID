@@ -37,6 +37,7 @@ gcc y.tab.c lex.yy.c -lm
   - Bison file with full grammar and tokens. need to reduce ambiguous statements and fix newlines and var assignments.
   * small change in BNF Grammar (needed an argument list for function calls). Core Bison parser works, but still can't
     assign or declare variables.
+  * Bison parser syntax analyzer complete. Implementation of a hashtable for storing identifiers with their data and scopes.
 
 * 0.2
   - Flex file initialisation (reserved keywords definition + a simple function to print the tokens)
@@ -53,3 +54,5 @@ gcc y.tab.c lex.yy.c -lm
 ## Known Issues
 
 - BNF grammar, cant print multiple strings or variables, just 1 string that can be followed by a variable
+
+* Lacking variable definitions and declarations in memory.

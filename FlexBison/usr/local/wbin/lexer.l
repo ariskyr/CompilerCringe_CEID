@@ -66,7 +66,7 @@ IDENTIFIER          _*{LETTER}{ALPHANUM_}*
 "BREAK"                     { token_print(T_BREAK); return T_BREAK; }
 
 {IDENTIFIER}                { token_print(T_ID); yylval.strval = strdup(yytext); return T_ID; } /* yylval deiktis sto union me ta types sto bison */
-{NATURAL}                   { token_print(T_NATURAL); yylval.intval = strdup(yytext); return T_NATURAL; }
+{NATURAL}                   { token_print(T_NATURAL); yylval.intval = atoi(yytext); return T_NATURAL; }
 
 \"                          { strcpy(str_buf, ""); BEGIN(DQUOTE_STRING); }
 <DQUOTE_STRING>\"                  { BEGIN(INITIAL); printf("Found string: '%s'\n", str_buf); yylval.strval = strdup(str_buf); return T_STRING; }
@@ -124,10 +124,10 @@ IDENTIFIER          _*{LETTER}{ALPHANUM_}*
 "AND"                       { token_print(T_ANDOP); return T_ANDOP; }
 "OR"                        { token_print(T_OROP); return T_OROP; }
 
-"==" | "!="                 { token_print(T_EQOP); return T_EQOP; }
-">"  | "<"                  { token_print(T_RELOP); return T_RELOP; }
-"+"  | "-"                  { token_print(T_ADDOP); return T_ADDOP; }
-"*"  | "/"                  { token_print(T_MULOP); return T_MULOP; }
+"=="|"!="                 { token_print(T_EQOP); return T_EQOP; }
+">"|"<"                 { token_print(T_RELOP); return T_RELOP; }
+"+"|"-"                  { token_print(T_ADDOP); return T_ADDOP; }
+"*"|"/"                  { token_print(T_MULOP); return T_MULOP; }
 "^"                         { token_print(T_EXPOP); return T_EXPOP; }
 
 "("                         { token_print(T_LPAREN); return T_LPAREN; }
@@ -137,12 +137,13 @@ IDENTIFIER          _*{LETTER}{ALPHANUM_}*
 "="                         { token_print(T_ASSIGN); return T_ASSIGN; }
 "["                         { token_print(T_LBRACK); return T_LBRACK; }
 "]"                         { token_print(T_RBRACK); return T_RBRACK; }
+":"                         { token_print(T_COLON); return T_COLON; }
 
 [\n]                        {   }
 [ \t]                       {   }
 [\r\n]                      {   }
 
-<<EOF>>                     { token_print(T_EOF); return T_EOF; }
+<<EOF>>                     { yyterminate(); return 0; }
 
 .                           { yyerror("Unrecognized character."); }
 

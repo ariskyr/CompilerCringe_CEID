@@ -32,7 +32,6 @@
 
 <newlines> ::= <newline> | <newline> <newlines>
 
-FIXME maybe whitespace doesnt work
 <whitespace> ::= "" | " " <whitespace> | <comment> | <tab> | <newline> | <carriageReturn>
 
 <comment> ::= <slComment> | <mlComment>

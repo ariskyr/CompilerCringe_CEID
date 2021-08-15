@@ -9,12 +9,33 @@ PROGRAM test
         RETURN int
     END_FUNCTION
 
+
+
     STARTMAIN
 
         VARS CHAR x[5], y;
         VARS INTEGER z;
         z = foo();
         z = foo(10, bb);
-        PRINT("auto einai to apotelesma:" [,z])
+        PRINT("auto einai to apotelesma:" [,z]);
+
+        FOR i=5; TO i>20 STEP 3
+            WHILE(a == b)
+                VARS INTEGER foo;
+                foo = foo + 3 * (5-2)^2 / 10;
+                PRINT("eimai to foo" [,foo]);
+            ENDWHILE
+        ENDFOR
+
+        VARS INTEGER count;
+        count = 5;
+        SWITCH(count)
+            CASE (count == 0):
+                PRINT("case 0");
+                BREAK;
+            CASE (count == 5):
+                PRINT("case 5");
+            DEFAULT:
+                PRINT("default");
+        ENDSWITCH
     ENDMAIN
-    

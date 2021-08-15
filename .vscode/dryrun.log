@@ -1,0 +1,7 @@
+make.exe all -f "F:\Ceid_Projects\CompilerCringe_CEID\FlexBison\usr\local\wbin\makefile" --dry-run --keep-going --print-directory
+make.exe: Entering directory `f:/Ceid_Projects/CompilerCringe_CEID'
+ 
+make.exe: *** No rule to make target `all'.
+ 
+make.exe: Leaving directory `f:/Ceid_Projects/CompilerCringe_CEID'
+ 
